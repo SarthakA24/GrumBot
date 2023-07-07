@@ -27,6 +27,10 @@ client.once(Events.ClientReady, () => {
 	console.log('Ready!');
 });
 
+client.user.setActivity("Watching", {
+	type: "Infernobles"
+  });
+
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
