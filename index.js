@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const { token } = require('./config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -27,9 +27,17 @@ client.once(Events.ClientReady, () => {
 	console.log('Ready!');
 });
 
+client.on('ready', () => {
+	client.user.setActivity({
+		type: ActivityType.Watching,
+		name: 'Infernobles'
+	  });
+})
+
 client.on(Events.InteractionCreate, async interaction => {
-	client.user.setActivity("Watching", {
-		type: "Infernobles"
+	client.user.setActivity({
+		type: ActivityType.Watching,
+		name: 'Infernobles'
 	  });
 	if (!interaction.isChatInputCommand()) return;
 
