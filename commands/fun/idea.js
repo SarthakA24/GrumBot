@@ -11,5 +11,5 @@ module.exports = {
         } else {
             await interaction.reply('GrumBot Disagrees');
         }
-	},
+	}
 };
