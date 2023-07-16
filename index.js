@@ -57,4 +57,23 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
+//MessageCreate Events to make grumbot reply to text messages
+client.on(Events.MessageCreate, async message => {
+	if(message.author.bot) return;
+	// Text reply to "idea" same as /idea
+	if (message.content.toLowerCase().includes('idea')) {
+		const randomBoolean = () => Math.random() >= 0.5
+        if (randomBoolean()) {
+		await message.channel.send('GrumBot Agrees with this Idea!');
+        } else {
+            await message.channel.send('GrumBot Disagrees');
+        }
+		await message.channel.send('Grumbot Disagrees');
+	}
+	// Text reply to "Grumbot"
+	if (message.content.toLowerCase().includes('Grumbot')) {
+		await message.channel.send('Hi, I am Grumbot, the bot for the Infernobles Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me. :face_with_peeking_eye:');
+	}
+})
+
 client.login(token);
