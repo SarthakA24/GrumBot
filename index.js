@@ -68,7 +68,6 @@ client.on(Events.MessageCreate, async message => {
         } else {
             await message.channel.send('GrumBot Disagrees');
         }
-		await message.channel.send('Grumbot Disagrees');
 	}
 	// Text reply to "Grumbot"
 	if (message.content.toLowerCase().includes('Grumbot')) {
