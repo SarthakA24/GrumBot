@@ -61,7 +61,7 @@ client.on(Events.InteractionCreate, async interaction => {
 client.on(Events.MessageCreate, async message => {
 	if(message.author.bot) return;
 	// Text reply to "idea" same as /idea
-	if (message.content.toLowerCase().includes('idea')) {
+	else if (message.content.toLowerCase().includes('idea')) {
 		const randomBoolean = () => Math.random() >= 0.5
         if (randomBoolean()) {
 		await message.channel.send('GrumBot Agrees with this Idea!');
@@ -70,8 +70,13 @@ client.on(Events.MessageCreate, async message => {
         }
 	}
 	// Text reply to "Grumbot"
-	if (message.content.toLowerCase().includes('Grumbot')) {
+	else if (message.content.toLowerCase().includes('grumbot')) {
 		await message.channel.send('Hi, I am Grumbot, the bot for the Infernobles Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me. :face_with_peeking_eye:');
+	}
+
+	// Text reply to "vote"
+	else if(message.content.toLowerCase().includes('vote')) {
+		await message.channel.send('MUMBO FOR MAYOR!!');
 	}
 })
 
