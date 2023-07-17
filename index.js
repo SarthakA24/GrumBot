@@ -70,13 +70,18 @@ client.on(Events.MessageCreate, async message => {
         }
 	}
 	// Text reply to "Grumbot"
-	else if (message.content.toLowerCase().includes('grumbot')) {
+	else if (message.content.toLowerCase().includes('hello grumbot')) {
 		await message.channel.send('Hi, I am Grumbot, the bot for the Infernobles Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me. :face_with_peeking_eye:');
 	}
 
 	// Text reply to "vote"
 	else if(message.content.toLowerCase().includes('vote')) {
 		await message.channel.send('MUMBO FOR MAYOR!!');
+	}
+
+	// Text reply to "financial advisor"
+	else if(message.content.toLowerCase().includes('financial advisor')) {
+		await message.channel.send('Echo, ${message.author} is asking for your financial advices xD!');
 	}
 })
 
