@@ -81,7 +81,7 @@ client.on(Events.MessageCreate, async message => {
 
 	// Text reply to "financial advisor"
 	else if(message.content.toLowerCase().includes('financial advisor')) {
-		await message.channel.send('Echo, ${message.author} is asking for your financial advices xD!');
+		await message.channel.send(`Echo, ${message.author} is asking for your financial advices xD!`);
 	}
 })
 
