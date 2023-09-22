@@ -71,12 +71,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 	// Text reply to "Grumbot"
 	else if (message.content.toLowerCase().includes('hello grumbot')) {
-		await message.channel.send('Hi, I am Grumbot, the bot for the Infernobles Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me. :face_with_peeking_eye:');
-	}
-
-	// Text reply to "financial advisor"
-	else if(message.content.toLowerCase().includes('financial advisor')) {
-		await message.channel.send(`<@297829357823459329>, ${message.author} is asking for your financial advices xD!`);
+		await message.channel.send('Hi, I am Grumbot, the bot for the EthelMC Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me.');
 	}
 })
 
