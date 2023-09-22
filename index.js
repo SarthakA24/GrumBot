@@ -73,6 +73,11 @@ client.on(Events.MessageCreate, async message => {
 	else if (message.content.toLowerCase().includes('hello grumbot')) {
 		await message.channel.send('Hi, I am Grumbot, the bot for the EthelMC Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me.');
 	}
+	// Delete the sent message and forwards it to logs channel
+	else if (message.content.toLowerCase().includes('test')) {
+		client.channels.cache.get(`1146605265580462151`).send(message);
+		message.delete();
+	}
 })
 
 client.login(token);
