@@ -30,14 +30,14 @@ client.once(Events.ClientReady, () => {
 client.on('ready', () => {
 	client.user.setActivity({
 		type: ActivityType.Watching,
-		name: 'Infernobles'
+		name: 'EthelMC'
 	  });
 })
 
 client.on(Events.InteractionCreate, async interaction => {
 	client.user.setActivity({
 		type: ActivityType.Watching,
-		name: 'Infernobles'
+		name: 'EthelMC'
 	  });
 	if (!interaction.isChatInputCommand()) return;
 
