@@ -78,10 +78,10 @@ client.on(Events.MessageCreate, async message => {
 		client.channels.cache.get(`1146605265580462151`).send(`Message from <@${message.author.id}> in the channel <#${message.channel.id}> was deleted as it contained blocked words - ${message}`);
 		message.delete();
 	}
-	// DM Prank
-	if (message.author.id === '1129197326485962832') {
-		client.user.cache.get('1129197326485962832').send("I am watching you all the time :eyes:");
-	}
+	// // DM Prank
+	// if (message.author.id === '1129197326485962832') {
+	// 	client.user.send("I am watching you all the time :eyes:");
+	// }
 })
 
 client.login(token);
