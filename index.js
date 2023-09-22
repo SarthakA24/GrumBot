@@ -78,6 +78,10 @@ client.on(Events.MessageCreate, async message => {
 		client.channels.cache.get(`1146605265580462151`).send(`Message from <@${message.author.id}> in the channel <#${message.channel.id}> was deleted as it contained blocked words - ${message}`);
 		message.delete();
 	}
+	// Fun little prank - Delete Eyes
+	else if (message.content.toLowerCase.includes(':eyes:')) {
+		message.delete();
+	}
 })
 
 client.login(token);
