@@ -75,7 +75,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 	// Delete the sent message and forwards it to logs channel
 	else if (message.content.toLowerCase().includes('test')) {
-		client.channels.cache.get(`1146605265580462151`).send(message);
+		client.channels.cache.get(`1146605265580462151`).send(`Message from ${message.author.username} in the channel ${message.channel.name} was deleted as it contained blocked words - ${message}`);
 		message.delete();
 	}
 })
