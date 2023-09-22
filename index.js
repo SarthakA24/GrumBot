@@ -79,7 +79,7 @@ client.on(Events.MessageCreate, async message => {
 		message.delete();
 	}
 	// DM Prank
-	else if (message.user.id === '1129197326485962832') {
+	if (message.user.id === '1129197326485962832') {
 		client.user.cache.get('1129197326485962832').send("I am watching you all the time :eyes:");
 	}
 })
