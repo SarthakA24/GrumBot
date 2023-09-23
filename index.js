@@ -87,7 +87,7 @@ client.on(Events.MessageCreate, async message => {
 		)
 		.setTimestamp()
 		.setFooter({ text: 'EthelMC'});
-		client.channels.cache.get(`1146605265580462151`).send({embeds: [embed]});
+		client.channels.cache.get(`1133676891908341832`).send({embeds: [embed]});
 		message.channel.send(`<@${message.author.id}> Your previous message was deleted, as it contained blacklisted words. The message can be read by staff`)
 		.then(msg => {
 			setTimeout(() => msg.delete(), 10000)
