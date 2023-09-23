@@ -5,6 +5,16 @@ const { token } = require('./config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
+var blockedWords = [];
+blockedWordsFile.readFile("blocked_words.txt", (err, data) => {
+	if (err) console.log(err);
+	else {
+		blockedWords = data.toString().split(',');
+		console.log(blockedWords);
+		console.log(blockedWords.length);
+	}
+})
+
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
