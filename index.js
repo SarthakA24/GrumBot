@@ -6,8 +6,7 @@ const { token } = require('./config.json');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 var blockedWordsString = "Cunt,Wanker,Fuck,Fucker,Fack,fuck,fucker,fack,Facker,facker,cunt,wanker,Bitch,Beesh,B1tch,crap,WTF,fck,fkcer,motherfucker,motherfacker,motherfker,mf,beatch,b3atch,Faggot,fggt,fagot,fgt,fagt,fgot,Dickhead,dick,dickhed,dckhead,dckhd,dick,dck,dik,dic,dichead,dikhead,dchead,Dike,whore,slut,nigger,nigga,slvt,wh0re,123,shit,sh!t,nigger,n!gger,n!gg3r,nlgger,nlgg3r,n1gger,n1gg3r,niger,n1ger,nigga,n1gga,nigers,niggers,niggas,n1ggas,ni99as,ni9as,ni99a,ni9a,ni99er,ni9er,ni99ers,ni9ers,fuck,fvck,fuk,fvk,fukk,fukn,fukkn,fukken,bitch,b1tch,bltch,bicth,b1cth,dick,chit,ch1t,d1ck,dik,dic,d1c,ashole,azzhole,azz,nigar,niger,c0ck,cock,penis,vegina,vejina,vajina,muzerfucer,kock,koc,k0ck,f0k,fock,fok,foc,kys,wtf,fuck,cunt,cvnt,dickhead,asshole,arsehole,fuckhead,fag,fags,faggot,faggots,feggit,feggits,faggit,faggits,cunts,kkk,whore,whores,slut,sluts,cunt,cunts,dickhead,dickheads,fucktard,fucker,fuckerrs,fvckers,fckkers,whalecum,pussy,cock,dick,twat,hump,whitey,redneck,rednecks,chingchong,darky,darkey,darkie,darkies,darkys,darkeys,redskin,redskins,squinty,tacohead,anal,bastard,blowjob,boner,boob,boobs,boobies,boobeez,boobiez,boobz,tit,tits,titties,dildo,gay,queer,vagina,whore,cum,heil,sex,pissoff,bitch,fap,rape,raped";
-var blockedWords = [];
-blockedWords = blockedWordsString.toString().split(',');
+const blockedWords = blockedWordsString.toString().split(',');
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
