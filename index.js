@@ -60,28 +60,33 @@ client.on(Events.InteractionCreate, async interaction => {
 //MessageCreate Events to make grumbot reply to text messages
 client.on(Events.MessageCreate, async message => {
 	if(message.author.bot) return;
-	// Text reply to "idea" same as /idea
-	else if (message.content.toLowerCase().includes('idea')) {
-		const randomBoolean = () => Math.random() >= 0.5
-        if (randomBoolean()) {
-		await message.channel.send('GrumBot Agrees with this Idea!');
-        } else {
-            await message.channel.send('GrumBot Disagrees');
-        }
-	}
-	// Text reply to "Grumbot"
+	// // Text reply to "idea" same as /idea
+	// else if (message.content.toLowerCase().includes('idea')) {
+	// 	const randomBoolean = () => Math.random() >= 0.5
+    //     if (randomBoolean()) {
+	// 	await message.channel.send('GrumBot Agrees with this Idea!');
+    //     } else {
+    //         await message.channel.send('GrumBot Disagrees');
+    //     }
+	// }
+	// Text reply to "Hello Grumbot"
 	else if (message.content.toLowerCase().includes('hello grumbot')) {
 		await message.channel.send('Hi, I am Grumbot, the bot for the EthelMC Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me.');
 	}
-	// Delete the sent message and forwards it to logs channel
-	else if (message.content.toLowerCase().includes('test')) {
-		client.channels.cache.get(`1146605265580462151`).send(`Message from <@${message.author.id}> in the channel <#${message.channel.id}> was deleted as it contained blocked words - ${message}`);
+	// Deletes messages containing blacklisted words
+	else if (blockedWords.some(blockedWord => message.content.toLowerCase().includes(blockedWord))) {
+		const embed = new EmbedBuilder()
+		.setTitle('Deleted Message')
+		.setAuthor({name:'EthelMC Moderation'})
+		.setDescription(`Deleted message from channel <#${message.channel.id}>`)
+		.addFields(
+			{name: '\u200B', value:`<@${message.author.id}> - ${message}`}
+		)
+		.setTimestamp()
+		.setFooter({ text: 'EthelMC'});
+		client.channels.cache.get(`1146605265580462151`).send({embeds: [embed]});
 		message.delete();
 	}
-	// // DM Prank
-	// if (message.author.id === '1129197326485962832') {
-	// 	client.user.send("I am watching you all the time :eyes:");
-	// }
 })
 
 client.login(token);
