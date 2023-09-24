@@ -1,4 +1,4 @@
-import { blockedWordsArray } from './commands/moderation/reload';
+const blockedWordsArray = require('./commands/moderation/reload.js');
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder } = require('discord.js');
