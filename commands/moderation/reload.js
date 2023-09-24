@@ -19,8 +19,6 @@ module.exports = {
             };
             function callback(error, response, body) {
                 blockedWordsArray = body.split(',');
-                console.log(response);
-                console.log(error);
             }
             request(options, callback);
             module.exports = {blockedWordsArray};
