@@ -1,11 +1,10 @@
+import { blockedWordsArray } from './commands/moderation/reload';
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder } = require('discord.js');
 const { token } = require('./config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
-
-var blockedWords = [];
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -76,7 +75,7 @@ client.on(Events.MessageCreate, async message => {
 		await message.channel.send('Hi, I am Grumbot, the bot for the EthelMC Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me.');
 	}
 	// Deletes messages containing blacklisted words
-	else if (blockedWords.some(blockedWord => message.content.toLowerCase().includes(blockedWord))) {
+	else if (blockedWordsArray.some(blockedWord => message.content.toLowerCase().includes(blockedWord))) {
 		const embed = new EmbedBuilder()
 		.setTitle('Deleted Message')
 		.setAuthor({name:'EthelMC Moderation'})
