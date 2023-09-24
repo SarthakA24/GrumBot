@@ -95,7 +95,6 @@ client.on(Events.MessageCreate, async message => {
 	}
 	// Deletes messages containing blacklisted words
 	else if (blockedWordsArray.some(blockedWord => message.content.toLowerCase().includes(blockedWord))) {
-		updateBlockedWords();
 		const embed = new EmbedBuilder()
 			.setTitle('Deleted Message')
 			.setAuthor({ name: 'EthelMC Moderation' })
@@ -112,6 +111,11 @@ client.on(Events.MessageCreate, async message => {
 			})
 			.catch(err => console.log(err));
 		message.delete();
+	}
+	//Reload / Update blocked words
+	else if (message.content.toLowerCase() === "Grumbot Reload your config" && message.author.id === "373775406148616192") {
+		updateBlockedWords();
+		message.channel.send("Beep Boop Beep...... Reloaded my config");
 	}
 })
 
