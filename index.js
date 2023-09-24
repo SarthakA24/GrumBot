@@ -113,7 +113,7 @@ client.on(Events.MessageCreate, async message => {
 		message.delete();
 	}
 	//Reload / Update blocked words
-	else if (message.content.toLowerCase() === "Grumbot Reload your config" && message.author.id === "373775406148616192") {
+	else if (message.content.toLowerCase().includes("Grumbot Reload your config") && message.author.id == "373775406148616192") {
 		updateBlockedWords();
 		message.channel.send("Beep Boop Beep...... Reloaded my config");
 	}
