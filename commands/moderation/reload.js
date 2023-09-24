@@ -21,7 +21,6 @@ module.exports = {
                 blockedWordsArray = body.split(',');
             }
             request(options, callback);
-            module.exports = {blockedWordsArray};
             await interaction.reply("Config Reloaded");
         } else {
             await interaction.reply('You are not allowed to use this command!');

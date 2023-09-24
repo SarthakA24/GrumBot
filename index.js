@@ -1,10 +1,11 @@
-const blockedWordsArray = require('./commands/moderation/reload.js');
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder } = require('discord.js');
 const { token } = require('./config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+
+var blockedWordsArray = [];
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -24,6 +25,23 @@ for (const folder of commandFolders) {
 	}
 }
 
+function updateBlockedWords() {
+	const URL = 'https://raw.githubusercontent.com/SarthakA24/Grumbot_Blocked_Words/master/blocked_words.txt';
+	const TOKEN = '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';
+	var options = {
+		url: URL,
+		headers: {
+			'Authorization': 'token ' + TOKEN
+		}
+	};
+	function callback(error, response, body) {
+		blockedWordsArray = body.split(',');
+	}
+	request(options, callback);
+}
+
+updateBlockedWords();
+
 client.once(Events.ClientReady, () => {
 	console.log('Ready!');
 });
@@ -32,14 +50,14 @@ client.on('ready', () => {
 	client.user.setActivity({
 		type: ActivityType.Watching,
 		name: 'EthelMC'
-	  });
+	});
 })
 
 client.on(Events.InteractionCreate, async interaction => {
 	client.user.setActivity({
 		type: ActivityType.Watching,
 		name: 'EthelMC'
-	  });
+	});
 	if (!interaction.isChatInputCommand()) return;
 
 	const command = client.commands.get(interaction.commandName);
@@ -60,15 +78,15 @@ client.on(Events.InteractionCreate, async interaction => {
 
 //MessageCreate Events to make grumbot reply to text messages
 client.on(Events.MessageCreate, async message => {
-	if(message.author.bot) return;
+	if (message.author.bot) return;
 	// // Text reply to "idea" same as /idea
 	// else if (message.content.toLowerCase().includes('idea')) {
 	// 	const randomBoolean = () => Math.random() >= 0.5
-    //     if (randomBoolean()) {
+	//     if (randomBoolean()) {
 	// 	await message.channel.send('GrumBot Agrees with this Idea!');
-    //     } else {
-    //         await message.channel.send('GrumBot Disagrees');
-    //     }
+	//     } else {
+	//         await message.channel.send('GrumBot Disagrees');
+	//     }
 	// }
 	// Text reply to "Hello Grumbot"
 	else if (message.content.toLowerCase().includes('hello grumbot')) {
@@ -76,21 +94,22 @@ client.on(Events.MessageCreate, async message => {
 	}
 	// Deletes messages containing blacklisted words
 	else if (blockedWordsArray.some(blockedWord => message.content.toLowerCase().includes(blockedWord))) {
+		updateBlockedWords();
 		const embed = new EmbedBuilder()
-		.setTitle('Deleted Message')
-		.setAuthor({name:'EthelMC Moderation'})
-		.setDescription(`Deleted message from channel <#${message.channel.id}>`)
-		.addFields(
-			{name: '\u200B', value:`<@${message.author.id}> - ${message}`}
-		)
-		.setTimestamp()
-		.setFooter({ text: 'EthelMC'});
-		client.channels.cache.get(`1133676891908341832`).send({embeds: [embed]});
+			.setTitle('Deleted Message')
+			.setAuthor({ name: 'EthelMC Moderation' })
+			.setDescription(`Deleted message from channel <#${message.channel.id}>`)
+			.addFields(
+				{ name: '\u200B', value: `<@${message.author.id}> - ${message}` }
+			)
+			.setTimestamp()
+			.setFooter({ text: 'EthelMC' });
+		client.channels.cache.get(`1133676891908341832`).send({ embeds: [embed] });
 		message.channel.send(`<@${message.author.id}> Your previous message was deleted, as it contained blacklisted words. The message can be read by staff`)
-		.then(msg => {
-			setTimeout(() => msg.delete(), 5000)
-		})
-		.catch(err => console.log(err));
+			.then(msg => {
+				setTimeout(() => msg.delete(), 5000)
+			})
+			.catch(err => console.log(err));
 		message.delete();
 	}
 })
