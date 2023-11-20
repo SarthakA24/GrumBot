@@ -2,12 +2,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { token } = require('./config.json');
-const request = require('request');
 const { channel } = require('node:diagnostics_channel');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
-
-var blockedWordsArray = [];
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -26,23 +23,6 @@ for (const folder of commandFolders) {
 		}
 	}
 }
-
-function updateBlockedWords() {
-	const URL = 'https://raw.githubusercontent.com/SarthakA24/Grumbot_Blocked_Words/master/blocked_words.txt';
-	const TOKEN = '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';
-	var options = {
-		url: URL,
-		headers: {
-			'Authorization': 'token ' + TOKEN
-		}
-	};
-	function callback(error, response, body) {
-		blockedWordsArray = body.split(',');
-	}
-	request(options, callback);
-}
-
-updateBlockedWords();
 
 client.once(Events.ClientReady, () => {
 	console.log('Ready!');
