@@ -80,42 +80,54 @@ client.on(Events.InteractionCreate, async interaction => {
 //MessageCreate Events to make grumbot reply to text messages
 client.on(Events.MessageCreate, async message => {
 	if (message.author.bot) return;
-	// // Text reply to "idea" same as /idea
-	// else if (message.content.toLowerCase().includes('idea')) {
-	// 	const randomBoolean = () => Math.random() >= 0.5
-	//     if (randomBoolean()) {
-	// 	await message.channel.send('GrumBot Agrees with this Idea!');
-	//     } else {
-	//         await message.channel.send('GrumBot Disagrees');
-	//     }
-	// }
+
 	// Text reply to "Hello Grumbot"
 	else if (message.content.toLowerCase().includes('hello grumbot')) {
 		await message.channel.send('Hi, I am Grumbot, the bot for the EthelMC Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me.');
 	}
-	// Deletes messages containing blacklisted words
-	else if (blockedWordsArray.some(blockedWord => message.content.toLowerCase().includes(blockedWord))) {
-		const embed = new EmbedBuilder()
-			.setTitle('Deleted Message')
-			.setAuthor({ name: 'EthelMC Moderation' })
-			.setDescription(`Deleted message from channel <#${message.channel.id}>`)
+
+	else if (message.content.toLowerCase() === '!vote' || message.content.toLowerCase() === '!voting') {
+		const voteLink1 = new ButtonBuilder()
+			.setLabel('Vote Link 1')
+			.setURL('https://mcservers.top/server/2471')
+			.setStyle(ButtonStyle.Link);
+		const voteLink2 = new ButtonBuilder()
+			.setLabel('Vote Link 2')
+			.setURL('https://topg.org/minecraft-servers/server-657465')
+			.setStyle(ButtonStyle.Link);
+		const voteLink3 = new ButtonBuilder()
+			.setLabel('Vote Link 3')
+			.setURL('https://minecraft-server-list.com/server/499666/')
+			.setStyle(ButtonStyle.Link);
+		const voteLink4 = new ButtonBuilder()
+			.setLabel('Vote Link 4')
+			.setURL('https://minecraft-mp.com/server-s324551')
+			.setStyle(ButtonStyle.Link);
+		const voteLink5 = new ButtonBuilder()
+			.setLabel('Vote Link 5')
+            .setURL('https://minecraftservers.org/server/655537')
+            .setStyle(ButtonStyle.Link);
+		const voteRow = new ActionRowBuilder()
+			.addComponents(voteLink1, voteLink2, voteLink3, voteLink4, voteLink5);
+		const voteEmbed = new EmbedBuilder()
+			.setColor('#9b59b6')
+			.setTitle('EthelMC Voting')
+			.setAuthor("EthelMC")
+			.setDescription('Vote for EthelMC and win amazing in-game rewards!')
+			.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
 			.addFields(
-				{ name: '\u200B', value: `<@${message.author.id}> - ${message}` }
+				{ name: 'Vote Link 1', value: '[MC Servers Top](https://mcservers.top/server/2471)' },
+				{ name: 'Vote Link 2', value: '[TopG](https://topg.org/minecraft-servers/server-657465)' },
+				{ name: 'Vote Link 3', value: '[Minecraft Servers List](https://minecraft-server-list.com/server/499666/)' },
+				{ name: 'Vote Link 4', value: '[Minecraft MP](https://minecraft-mp.com/server-s324551)' },
+				{ name: 'Vote Link 5', value: '[Minecraft Servers](https://minecraftservers.org/server/655537)' }
 			)
 			.setTimestamp()
-			.setFooter({ text: 'EthelMC' });
-		client.channels.cache.get(`1133676891908341832`).send({ embeds: [embed] });
-		message.channel.send(`<@${message.author.id}> Your previous message was deleted, as it contained blacklisted words. The message can be read by staff`)
-			.then(msg => {
-				setTimeout(() => msg.delete(), 5000)
-			})
-			.catch(err => console.log(err));
-		message.delete();
-	}
-	//Reload / Update blocked words
-	else if (message.content.toLowerCase().includes("Grumbot Reload your config") && message.author.id == "373775406148616192") {
-		updateBlockedWords();
-		message.channel.send("Beep Boop Beep...... Reloaded my config");
+			.setFooter({texr: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240'});
+		interaction.reply({
+			embeds: [voteEmbed],
+            components: [voteRow]
+		});
 	}
 })
 
