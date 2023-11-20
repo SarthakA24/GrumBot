@@ -123,7 +123,7 @@ client.on(Events.MessageCreate, async message => {
 				{ name: 'Vote Link 5', value: '[Minecraft Servers](https://minecraftservers.org/server/655537)' }
 			)
 			.setTimestamp()
-			.setFooter({texr: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240'});
+			.setFooter({text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240'});
 		interaction.reply({
 			embeds: [voteEmbed],
             components: [voteRow]
