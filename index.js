@@ -124,7 +124,7 @@ client.on(Events.MessageCreate, async message => {
 			)
 			.setTimestamp()
 			.setFooter({text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240'});
-		await channel.message.reply({
+		await channel.message.send({
 			embeds: [voteEmbed],
             components: [voteRow]
 		});
