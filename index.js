@@ -3,6 +3,7 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { token } = require('./config.json');
 const request = require('request');
+const { channel } = require('node:diagnostics_channel');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
@@ -87,47 +88,52 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	else if (message.content.toLowerCase() === '!vote' || message.content.toLowerCase() === '!voting') {
-		const voteLink1 = new ButtonBuilder()
-			.setLabel('Vote Link 1')
-			.setURL('https://mcservers.top/server/2471')
-			.setStyle(ButtonStyle.Link);
-		const voteLink2 = new ButtonBuilder()
-			.setLabel('Vote Link 2')
-			.setURL('https://topg.org/minecraft-servers/server-657465')
-			.setStyle(ButtonStyle.Link);
-		const voteLink3 = new ButtonBuilder()
-			.setLabel('Vote Link 3')
-			.setURL('https://minecraft-server-list.com/server/499666/')
-			.setStyle(ButtonStyle.Link);
-		const voteLink4 = new ButtonBuilder()
-			.setLabel('Vote Link 4')
-			.setURL('https://minecraft-mp.com/server-s324551')
-			.setStyle(ButtonStyle.Link);
-		const voteLink5 = new ButtonBuilder()
-			.setLabel('Vote Link 5')
-            .setURL('https://minecraftservers.org/server/655537')
-            .setStyle(ButtonStyle.Link);
-		const voteRow = new ActionRowBuilder()
-			.addComponents(voteLink1, voteLink2, voteLink3, voteLink4, voteLink5);
-		const voteEmbed = new EmbedBuilder()
-			.setColor('#9b59b6')
-			.setTitle('EthelMC Voting')
-			.setAuthor("EthelMC")
-			.setDescription('Vote for EthelMC and win amazing in-game rewards!')
-			.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
-			.addFields(
-				{ name: 'Vote Link 1', value: '[MC Servers Top](https://mcservers.top/server/2471)' },
-				{ name: 'Vote Link 2', value: '[TopG](https://topg.org/minecraft-servers/server-657465)' },
-				{ name: 'Vote Link 3', value: '[Minecraft Servers List](https://minecraft-server-list.com/server/499666/)' },
-				{ name: 'Vote Link 4', value: '[Minecraft MP](https://minecraft-mp.com/server-s324551)' },
-				{ name: 'Vote Link 5', value: '[Minecraft Servers](https://minecraftservers.org/server/655537)' }
-			)
-			.setTimestamp()
-			.setFooter({text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240'});
-		message.send({
-			embeds: [voteEmbed],
-            components: [voteRow]
-		});
+		try {
+			const voteLink1 = new ButtonBuilder()
+				.setLabel('Vote Link 1')
+				.setURL('https://mcservers.top/server/2471')
+				.setStyle(ButtonStyle.Link);
+			const voteLink2 = new ButtonBuilder()
+				.setLabel('Vote Link 2')
+				.setURL('https://topg.org/minecraft-servers/server-657465')
+				.setStyle(ButtonStyle.Link);
+			const voteLink3 = new ButtonBuilder()
+				.setLabel('Vote Link 3')
+				.setURL('https://minecraft-server-list.com/server/499666/')
+				.setStyle(ButtonStyle.Link);
+			const voteLink4 = new ButtonBuilder()
+				.setLabel('Vote Link 4')
+				.setURL('https://minecraft-mp.com/server-s324551')
+				.setStyle(ButtonStyle.Link);
+			const voteLink5 = new ButtonBuilder()
+				.setLabel('Vote Link 5')
+				.setURL('https://minecraftservers.org/server/655537')
+				.setStyle(ButtonStyle.Link);
+			const voteRow = new ActionRowBuilder()
+				.addComponents(voteLink1, voteLink2, voteLink3, voteLink4, voteLink5);
+			const voteEmbed = new EmbedBuilder()
+				.setColor('#9b59b6')
+				.setTitle('EthelMC Voting')
+				.setDescription('Vote for EthelMC and win amazing in-game rewards!')
+				.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
+				.addFields(
+					{ name: 'Vote Link 1', value: '[MC Servers Top](https://mcservers.top/server/2471)' },
+					{ name: 'Vote Link 2', value: '[TopG](https://topg.org/minecraft-servers/server-657465)' },
+					{ name: 'Vote Link 3', value: '[Minecraft Servers List](https://minecraft-server-list.com/server/499666/)' },
+					{ name: 'Vote Link 4', value: '[Minecraft MP](https://minecraft-mp.com/server-s324551)' },
+					{ name: 'Vote Link 5', value: '[Minecraft Servers](https://minecraftservers.org/server/655537)' }
+				)
+				.setTimestamp()
+				.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
+			await message.channel.send({
+				embeds: [voteEmbed],
+                components: [voteRow]
+			});
+		} catch (e) {
+			console.log(e);
+			await message.channel.send("Error in sending vote links! Devs have been notified for this error");
+			await client.channels.get('1135141244171984946').send(`Error in '!vote' command in ${channel.name} with the following errors - ${e}`);
+		}
 	}
 })
 
