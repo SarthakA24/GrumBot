@@ -125,13 +125,13 @@ client.on(Events.MessageCreate, async message => {
 				)
 				.setTimestamp()
 				.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
-			await message.channel.send({
+			await message.reply({
 				embeds: [voteEmbed],
                 components: [voteRow]
 			});
 		} catch (e) {
 			console.log(e);
-			await message.channel.send("Error in sending vote links! Devs have been notified for this error");
+			await message.reply("Error in sending vote links! Developers have been notified for this error");
 			await client.channels.get('1135141244171984946').send(`Error in '!vote' command in ${channel.name} with the following errors - ${e}`);
 		}
 	}
