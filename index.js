@@ -222,6 +222,22 @@ client.on(Events.MessageCreate, async message => {
 	else if (command === 'help') {
 		await message.reply(`Hi <@${message.author.id}>, Grumbot here! If you have any querie/questions/issues related to the Minecraft Server or the Discord Server, you can ask in <#1145330050456096810> or create a ticket at <#1142483755026616350> and one of our staff member will reply as soon as possible! *[Don't forget to vote MUMBO FOR MAYOR]*`);
 	}
+
+	// Text reply for !invite
+	else if (command === 'invite') {
+		let inviteLink;
+		await client.channels.cache.get('1135141244171984946').createInvite({
+			maxAge: 86400
+		}).then(invite => {inviteLink = invite.url});
+        await message.reply(`Hi <@${message.author.id}>, Grumbot here! I see that you have requested an invite link for this discord server. Generating an Invite Link, please wait for a moment.`).then(sentMessage => {
+			setTimeout(() => {
+                sentMessage.edit(`Hi <@${message.author.id}>, Grumbot here! I see that you have requested an invite link for this discord server. Link Generated...... Sending the link .....`);
+				setTimeout(() => {
+					sentMessage.edit(`Hi <@${message.author.id}>, Grumbot here! I see that you have requested an invite link for this discord server. Here is your requested invite link - ${inviteLink}\n\n**Note - This link will be valid till 24 hours from now. Please request a new invite link after that.**`);
+				}, 2000);
+            }, 4000);
+		});
+    }
 })
 
 client.login(token);
