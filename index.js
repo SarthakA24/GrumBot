@@ -3,7 +3,7 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { token } = require('./config.json');
 const { channel } = require('node:diagnostics_channel');
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
