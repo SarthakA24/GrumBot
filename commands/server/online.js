@@ -1,11 +1,12 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const fetch = require('node-fetch');
+const { SlashCommandBuilder, EmbedBuilder, Client } = require('discord.js');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('online')
         .setDescription('Get Online Players in the Server'),
     async execute(interaction) {
+        const devChannel = await interaction.g
         try {
 			const response = await fetch("https://api.mcsrvstat.us/3/play.ethelmc.com");
 			const data = await response.json();
@@ -42,11 +43,11 @@ module.exports = {
 					)
 					.setTimestamp()
 					.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
-				await message.reply({ embeds: [offlineEmbed] });
+				await interaction.reply({ embeds: [offlineEmbed] });
 			}
 		} catch (e) {
 			console.log(e);
-			await message.reply("Error in showing online users! Developers have been notified for this error");
+			await interaction.reply("Error in showing online users! Developers have been notified for this error");
 			await client.channels.cache.get('1135141244171984946').send(`Error in '/online' command in ${message.channel.name} with the following errors - ${e}`);
 		}
     },
