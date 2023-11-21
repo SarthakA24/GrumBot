@@ -60,6 +60,13 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
+var serverInfomation;
+// Function to get server information
+async function getServerInfo() {
+	const response = await fetch("https://api.mcsrvstat.us/3/play.ethelmc.com");
+	serverInfomation = await response.json();
+}
+
 //MessageCreate Events to make grumbot reply to text messages
 client.on(Events.MessageCreate, async message => {
 
@@ -127,9 +134,8 @@ client.on(Events.MessageCreate, async message => {
 	// Text reply to "!online" or "!players" or "!playerlist" for getting list of online users
 	else if (command === 'online' || command === 'players' || command === 'playerlist') {
 		try {
-			const response = await fetch("https://api.mcsrvstat.us/3/play.ethelmc.com");
-			const data = await response.json();
-			if (data.online) {
+			await getServerInfo();
+			if (serverInfomation.online) {
 				const onlineEmbed = new EmbedBuilder();
 				onlineEmbed
 					.setColor('#9b59b6')
@@ -138,7 +144,7 @@ client.on(Events.MessageCreate, async message => {
 					.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
 					.setTimestamp()
 					.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
-				const onlinePlayers = data.players.list;
+				const onlinePlayers = serverInfomation.players.list;
 				if (onlinePlayers !== undefined) {
 					const sortedOnlinePlayers = onlinePlayers.sort((a, b) => b.name - a.name);
 					let onlinePlayersName = '';
@@ -164,6 +170,47 @@ client.on(Events.MessageCreate, async message => {
 					.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
 				await message.reply({ embeds: [offlineEmbed] });
 			}
+		} catch (e) {
+			console.log(e);
+			await message.reply("Error in showing online users! Developers have been notified for this error");
+			await client.channels.cache.get('1135141244171984946').send(`Error in '${prefix}${command}' command in ${message.channel.name} with the following errors - ${e}`);
+		}
+	}
+
+	// Text reply to !status for getting the server status
+	else if (command === 'status') {
+		try {
+			var serverStatusEmbed = new EmbedBuilder();
+			await getServerInfo();
+			if (serverInfomation.online) {
+				serverStatusEmbed
+					.setTitle(":green_circle: Online")
+					.setDescription("Server is Online!!")
+					.setColor("#00FF00")
+					.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
+					.addFields(
+						{ name: "Players Online", value: `${serverInfomation.players.online}/${serverInfomation.players.max}` },
+						{ name: "Server Version", value: '1.20.2' },
+						{ name: "Server IP", value: 'play.ethelmc.com' },
+						{ name: "Bedrock Port", value: '25565' }
+					)
+					.setTimestamp()
+					.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
+			} else {
+				serverStatusEmbed
+					.setTitle(":red_circle: Offline")
+					.setDescription("Server is Offline! Check <#1135260823485431868> for information")
+					.setColor("#FF0000")
+					.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
+					.addFields(
+						{ name: "Server Version", value: '1.20.2' },
+						{ name: "Server IP", value: 'play.ethelmc.com' },
+						{ name: "Bedrock Port", value: '25565' }
+					)
+					.setTimestamp()
+					.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
+			}
+			await message.reply({ embeds: [serverStatusEmbed] });
 		} catch (e) {
 			console.log(e);
 			await message.reply("Error in showing online users! Developers have been notified for this error");
