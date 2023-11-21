@@ -115,7 +115,7 @@ client.on(Events.MessageCreate, async message => {
 				.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
 			await message.reply({
 				embeds: [voteEmbed],
-                components: [voteRow]
+				components: [voteRow]
 			});
 		} catch (e) {
 			console.log(e);
@@ -147,7 +147,7 @@ client.on(Events.MessageCreate, async message => {
 					});
 					onlineEmbed.addFields({ name: "Players List - ", value: `${onlinePlayersName}` });
 				} else {
-					onlineEmbed.addFields({ name: ':red_circle:', value: 'No Players Online', inline: true});
+					onlineEmbed.addFields({ name: ':red_circle:', value: 'No Players Online', inline: true });
 				}
 				await message.reply({ embeds: [onlineEmbed] });
 			} else {
@@ -158,7 +158,7 @@ client.on(Events.MessageCreate, async message => {
 					.setDescription('Server is Offline! Check <#1135260823485431868> for information')
 					.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
 					.addFields(
-						{ name: 'Server is Offline', value: "\u200B"}
+						{ name: 'Server is Offline', value: "\u200B" }
 					)
 					.setTimestamp()
 					.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
