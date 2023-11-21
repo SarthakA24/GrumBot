@@ -3,12 +3,14 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { token } = require('./config.json');
 const { channel } = require('node:diagnostics_channel');
+const fetch = require('node-fetch');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
+const prefix = "!";
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
@@ -60,6 +62,11 @@ client.on(Events.InteractionCreate, async interaction => {
 
 //MessageCreate Events to make grumbot reply to text messages
 client.on(Events.MessageCreate, async message => {
+
+	const userMessage = message.content.slice(prefix.length).split(/ +/);
+	const command = userMessage.shift().toLowerCase();
+
+	// Disregard replies for messages that comes from a Bot
 	if (message.author.bot) return;
 
 	// Text reply to "Hello Grumbot"
@@ -67,7 +74,8 @@ client.on(Events.MessageCreate, async message => {
 		await message.channel.send('Hi, I am Grumbot, the bot for the EthelMC Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me.');
 	}
 
-	else if (message.content.toLowerCase() === '!vote' || message.content.toLowerCase() === '!voting') {
+	// Text reply to "!vote" or "!voting"
+	else if (command === 'vote' || command === 'voting') {
 		try {
 			const voteLink1 = new ButtonBuilder()
 				.setLabel('Vote Link 1')
@@ -112,7 +120,54 @@ client.on(Events.MessageCreate, async message => {
 		} catch (e) {
 			console.log(e);
 			await message.reply("Error in sending vote links! Developers have been notified for this error");
-			await client.channels.get('1135141244171984946').send(`Error in '!vote' command in ${channel.name} with the following errors - ${e}`);
+			await client.channels.cache.get('1135141244171984946').send(`Error in '!vote' command in ${message.channel.name} with the following errors - ${e}`);
+		}
+	}
+
+	// Text reply to "!online" or "!players" or "!playerlist" for getting list of online users
+	else if (command === 'online' || command === 'players' || command === 'playerlist') {
+		try {
+			const response = await fetch("https://api.mcsrvstat.us/3/play.ethelmc.com");
+			const data = await response.json();
+			if (data.online) {
+				const onlineEmbed = new EmbedBuilder();
+				onlineEmbed
+					.setColor('#9b59b6')
+					.setTitle('EthelMC Online Players')
+					.setDescription('Current Players Online on EthelMC')
+					.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
+					.setTimestamp()
+					.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
+				const onlinePlayers = data.players.list;
+				if (onlinePlayers !== undefined) {
+					const sortedOnlinePlayers = onlinePlayers.sort((a, b) => b.name - a.name);
+					let onlinePlayersName = '';
+					sortedOnlinePlayers.forEach(player => {
+						onlinePlayersName += `${player.name}\n`;
+					});
+					onlineEmbed.addFields({ name: "Players List - ", value: `${onlinePlayersName}` });
+				} else {
+					onlineEmbed.addFields({ name: ':red_circle:', value: 'No Players Online', inline: true});
+				}
+				await message.reply({ embeds: [onlineEmbed] });
+			} else {
+				const offlineEmbed = new EmbedBuilder();
+				offlineEmbed
+					.setColor('#FF0000')
+					.setTitle(':red_circle: Server is Offline!')
+					.setDescription('Server is Offline! Check <#1135260823485431868> for information')
+					.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
+					.addFields(
+						{ name: 'Server is Offline', value: "\u200B"}
+					)
+					.setTimestamp()
+					.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
+				await message.reply({ embeds: [offlineEmbed] });
+			}
+		} catch (e) {
+			console.log(e);
+			await message.reply("Error in showing online users! Developers have been notified for this error");
+			await client.channels.cache.get('1135141244171984946').send(`Error in '${prefix}${command}' command in ${message.channel.name} with the following errors - ${e}`);
 		}
 	}
 })
