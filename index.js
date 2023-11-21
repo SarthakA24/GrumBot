@@ -217,6 +217,11 @@ client.on(Events.MessageCreate, async message => {
 			await client.channels.cache.get('1135141244171984946').send(`Error in '${prefix}${command}' command in ${message.channel.name} with the following errors - ${e}`);
 		}
 	}
+
+	// Text reply for !help
+	else if (command === 'help') {
+		await message.reply(`Hi <@${message.author.id}>, Grumbot here! If you have any querie/questions/issues related to the Minecraft Server or the Discord Server, you can ask in <#1145330050456096810> or create a ticket at <#1142483755026616350> and one of our staff member will reply as soon as possible! *[Don't forget to vote MUMBO FOR MAYOR]*`);
+	}
 })
 
 client.login(token);
