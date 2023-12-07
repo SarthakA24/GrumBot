@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
-const { token } = require('./config.json');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, WebhookClient } = require('discord.js');
+const { token, webhookId, webhookToken } = require('./config.json');
 const { channel } = require('node:diagnostics_channel');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
@@ -76,8 +76,30 @@ client.on(Events.MessageCreate, async message => {
 	// Disregard replies for messages that comes from a Bot
 	if (message.author.bot) return;
 
+	// Text replies to only Sar
+	if (message.author.id === '373775406148616192') {
+		if (message.content.toLowerCase().includes(':fatty:')) {
+			message.delete();
+			message.channel.createWebhook({
+				name: 'Sar',
+				avatarURL: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp`
+			}).then(webhook => {
+				const webhookClient = new WebhookClient({ id: webhook.id, token: webhook.token })
+				webhookClient.send({
+					content: message.content.replace(":fatty:", '<a:fatty:1149363358580084746>'),
+					username: message.author.nickname,
+					avatarURL: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp`
+				}).catch(async err => {
+					console.error(err);
+					await client.channels.cache.get('1135141244171984946').send(`Error in replacing emotes in ${message.channel.name} with the following errors - ${err}`);
+				})
+				webhookClient.delete(webhook.id);
+			});
+		}
+	}
+
 	// Text reply to "Hello Grumbot"
-	else if (message.content.toLowerCase().includes('hello grumbot')) {
+	if (message.content.toLowerCase().includes('hello grumbot')) {
 		await message.channel.send('Hi, I am Grumbot, the bot for the EthelMC Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me.');
 	}
 
@@ -153,7 +175,7 @@ client.on(Events.MessageCreate, async message => {
 					});
 					onlineEmbed.addFields({ name: "Players List - ", value: `${onlinePlayersName}` });
 				} else {
-					onlineEmbed.addFields({ name: ':red_circle:', value: 'No Players Online', inline: true });
+					onlineEmbed.addFields({ name: ' ', value: 'No Players Online', inline: true });
 				}
 				await message.reply({ embeds: [onlineEmbed] });
 			} else {
@@ -228,16 +250,16 @@ client.on(Events.MessageCreate, async message => {
 		let inviteLink;
 		await client.channels.cache.get('1135141244171984946').createInvite({
 			maxAge: 86400
-		}).then(invite => {inviteLink = invite.url});
-        await message.reply(`Hi <@${message.author.id}>, Grumbot here! I see that you have requested an invite link for this discord server. Generating an Invite Link, please wait for a moment.`).then(sentMessage => {
+		}).then(invite => { inviteLink = invite.url });
+		await message.reply(`Hi <@${message.author.id}>, Grumbot here! I see that you have requested an invite link for this discord server. Generating an Invite Link, please wait for a moment.`).then(sentMessage => {
 			setTimeout(() => {
-                sentMessage.edit(`Hi <@${message.author.id}>, Grumbot here! I see that you have requested an invite link for this discord server. Link Generated...... Sending the link .....`);
+				sentMessage.edit(`Hi <@${message.author.id}>, Grumbot here! I see that you have requested an invite link for this discord server. Link Generated...... Sending the link .....`);
 				setTimeout(() => {
 					sentMessage.edit(`Hi <@${message.author.id}>, Grumbot here! I see that you have requested an invite link for this discord server. Here is your requested invite link - ${inviteLink}\n\n**Note - This link will be valid till 24 hours from now. Please request a new invite link after that.**`);
 				}, 2000);
-            }, 4000);
+			}, 4000);
 		});
-    }
+	}
 })
 
 client.login(token);
