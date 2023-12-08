@@ -80,19 +80,41 @@ client.on(Events.MessageCreate, async message => {
 	if (message.author.bot) return;
 
 	// Text replies to only Sar
+	//  || message.author.id === '654969698471116800'
 	if (message.author.id === '373775406148616192') {
 		if (message.content.toLowerCase().includes(':fatty:')) {
 			message.delete();
 			message.channel.createWebhook({
-				name: 'Sar',
+				name: "Sar",
 				avatarURL: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp`
 			}).then(webhook => {
 				const webhookClient = new WebhookClient({ id: webhook.id, token: webhook.token })
 				webhookClient.send({
 					content: message.content.replace(":fatty:", '<a:fatty:1149363358580084746>'),
-					username: message.author.nickname,
+					username: "Sar",
 					avatarURL: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp`
 				}).catch(async err => {
+					console.error(err);
+					await client.channels.cache.get('1135141244171984946').send(`Error in replacing emotes in ${message.channel.name} with the following errors - ${err}`);
+				})
+				webhookClient.delete(webhook.id);
+			});
+		}
+
+		// Send message via webhook for each message containing the words - "?webhook"
+		else if (message.content.toLowerCase().startsWith('?webhook') &&  !message.content.toLowerCase().includes(':fatty:')) {
+			message.delete();
+			message.channel.createWebhook({
+				name: message.author.username,
+				avatarURL: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp`
+			}).then(webhook => {
+				const webhookClient = new WebhookClient({ id: webhook.id, token: webhook.token })
+				webhookClient.send({
+					content: message.content.replace("?webhook", " "),
+					username: message.author.username,
+					avatarURL: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp`
+				}).catch(async err => {
+					console.log(webhook);
 					console.error(err);
 					await client.channels.cache.get('1135141244171984946').send(`Error in replacing emotes in ${message.channel.name} with the following errors - ${err}`);
 				})
