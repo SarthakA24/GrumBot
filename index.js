@@ -1,11 +1,14 @@
+const dotNet = require('dotenv');
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, WebhookClient } = require('discord.js');
-const { token, webhookId, webhookToken } = require('./config.json');
 const { channel } = require('node:diagnostics_channel');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+
+//Load .env variables
+dotNet.config();
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -262,4 +265,4 @@ client.on(Events.MessageCreate, async message => {
 	}
 })
 
-client.login(token);
+client.login(process.env.BOT_TOKEN);
