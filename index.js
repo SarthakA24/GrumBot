@@ -318,6 +318,27 @@ client.on(Events.MessageCreate, async message => {
 			.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
 		await message.reply({content: `Hi there <@${message.author.id}>! Here is the link to the EthelMC Store`, embeds: [storeEmbed]})
 	}
+
+	// Text reply to !avatar to show the mentioned user avatar with a download button
+	else if (command === "avatar" || command === "av") {
+		const user = message.mentions.users.first() || message.author;
+		const downloadAvatar = new ButtonBuilder()
+			.setLabel('Download Avatar')
+			.setURL(user.displayAvatarURL({ dynamic: true, size: 1024 }))
+			.setStyle(ButtonStyle.Link);
+		const actionRow = new ActionRowBuilder()
+			.addComponents(downloadAvatar);
+		const avatarEmbed = new EmbedBuilder()
+			.setColor('#9b59b6')
+			.setTitle(`${user.username}'s Avatar`)
+			.setImage(user.displayAvatarURL({ dynamic: true, size: 1024 }))
+			.setTimestamp()
+			.setFooter({ text: 'EthelMC' });
+		await message.reply({ 
+			embeds: [avatarEmbed], 
+			components: [actionRow] });
+	}
+
 })
 
 client.login(process.env.BOT_TOKEN);
