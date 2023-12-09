@@ -302,6 +302,21 @@ client.on(Events.MessageCreate, async message => {
 			.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
 		await message.reply({ embeds: [serverIP] });
 	}
+
+	// Text reply to !store or !shop
+	else if (command === "store" || command === "shop") {
+		const storeEmbed = new EmbedBuilder()
+			.setColor('#9b59b6')
+			.setTitle('EthelMC Store')
+			.setDescription('Store for EthelMC')
+			.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
+			.addFields(
+				{ name: 'Store Link', value: 'https://store.ethelmc.com/' }
+			)
+			.setTimestamp()
+			.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
+		await message.reply({ embeds: [storeEmbed] });
+	}
 })
 
 client.login(process.env.BOT_TOKEN);
