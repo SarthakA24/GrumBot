@@ -118,6 +118,16 @@ client.on(Events.MessageCreate, async message => {
 		}
 	}
 
+	// If the user is not Sar, THAT'S SUS
+	else {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
+		await message.reply(`Beep Boop ...... Beep Beep! Oh no! Grumbot has identified that you are not Sar. This command is only allowed to be used by Sar`)
+		clearInterval(sendTypingInterval);
+	}
+
 	// Text reply to "Hello Grumbot"
 	if (message.content.toLowerCase().includes('hello grumbot')) {
 		await message.channel.send('Hi, I am Grumbot, the bot for the EthelMC Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me.');
