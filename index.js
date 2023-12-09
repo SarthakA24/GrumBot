@@ -100,13 +100,13 @@ client.on(Events.MessageCreate, async message => {
 		else if (message.content.toLowerCase().startsWith('?webhook') &&  !message.content.toLowerCase().includes(':fatty:')) {
 			message.delete();
 			message.channel.createWebhook({
-				name: message.author.username,
+				name: "Sar",
 				avatarURL: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp`
 			}).then(webhook => {
 				const webhookClient = new WebhookClient({ id: webhook.id, token: webhook.token })
 				webhookClient.send({
 					content: message.content.replace("?webhook", " "),
-					username: message.author.username,
+					username: "Sar",
 					avatarURL: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp`
 				}).catch(async err => {
 					console.log(webhook);
