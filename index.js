@@ -339,6 +339,19 @@ client.on(Events.MessageCreate, async message => {
 			components: [actionRow] });
 	}
 
+	// Text reply to !colors or !codes for Minecraft Color Codes
+	else if (command === "colors" || command === "codes") {
+		const colorEmbed = new EmbedBuilder()
+			.setColor('#9b59b6')
+			.setTitle('Minecraft Color Codes')
+			.setDescription('Minecraft Color Codes')
+			.setThumbnail('https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240')
+			.setImage("./assets/color_codes.png")
+			.setTimestamp()
+			.setFooter({ text: 'EthelMC', iconURL:"https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240" });
+		await message.reply({ embeds: [colorEmbed] });
+	}
+
 })
 
 client.login(process.env.BOT_TOKEN);
