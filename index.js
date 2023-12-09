@@ -72,10 +72,6 @@ async function getServerInfo() {
 
 //MessageCreate Events to make grumbot reply to text messages
 client.on(Events.MessageCreate, async message => {
-
-	const userMessage = message.content.slice(prefix.length).split(/ +/);
-	const command = userMessage.shift().toLowerCase();
-
 	// Disregard replies for messages that comes from a Bot
 	if (message.author.bot) return;
 
@@ -129,7 +125,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to "!vote" or "!voting"
-	else if (command === 'vote' || command === 'voting') {
+	else if (message.content.toLowerCase() === '!vote' || message.content.toLowerCase() === '!voting') {
 		try {
 			const voteLink1 = new ButtonBuilder()
 				.setLabel('Vote Link 1')
@@ -180,7 +176,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to "!online" or "!players" or "!playerlist" for getting list of online users
-	else if (command === 'online' || command === 'players' || command === 'playerlist') {
+	else if (message.content.toLowerCase() === 'online' || message.content.toLowerCase() === 'players' || message.content.toLowerCase() === 'playerlist') {
 		try {
 			await getServerInfo();
 			if (serverInfomation.online) {
@@ -221,12 +217,12 @@ client.on(Events.MessageCreate, async message => {
 		} catch (e) {
 			console.log(e);
 			await message.reply("Error in showing online users! Developers have been notified for this error");
-			await client.channels.cache.get('1135141244171984946').send(`Error in '${prefix}${command}' command in ${message.channel.name} with the following errors - ${e}`);
+			await client.channels.cache.get('1135141244171984946').send(`Error in '${message.content.toLowerCase()}' command in ${message.channel.name} with the following errors - ${e}`);
 		}
 	}
 
 	// Text reply to !status for getting the server status
-	else if (command === 'status') {
+	else if (message.content.toLowerCase() === 'status') {
 		try {
 			var serverStatusEmbed = new EmbedBuilder();
 			await getServerInfo();
@@ -267,12 +263,12 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply for !help
-	else if (command === 'help') {
+	else if (message.content.toLowerCase() === 'help') {
 		await message.reply(`Hi <@${message.author.id}>, Grumbot here! If you have any querie/questions/issues related to the Minecraft Server or the Discord Server, you can ask in <#1145330050456096810> or create a ticket at <#1142483755026616350> and one of our staff member will reply as soon as possible! *[Don't forget to vote MUMBO FOR MAYOR]*`);
 	}
 
 	// Text reply for !invite
-	else if (command === 'invite') {
+	else if (message.content.toLowerCase()=== 'invite') {
 		let inviteLink;
 		await client.channels.cache.get('1135141244171984946').createInvite({
 			maxAge: 86400
@@ -288,7 +284,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to !ip
-	else if (command === "ip") {
+	else if (message.content.toLowerCase() === "ip") {
 		const serverIP = new EmbedBuilder()
 			.setColor('#9b59b6')
 			.setTitle('EthelMC Server IP')
@@ -305,7 +301,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to !store or !shop
-	else if (command === "store" || command === "shop") {
+	else if (message.content.toLowerCase() === "store" || message.content.toLowerCase() === "shop") {
 		const storeEmbed = new EmbedBuilder()
 			.setColor('#9b59b6')
 			.setTitle('EthelMC Store')
@@ -320,7 +316,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to !avatar to show the mentioned user avatar with a download button
-	else if (command === "avatar" || command === "av") {
+	else if (message.content.toLowerCase() === "!avatar" || message.content.toLowerCase() === "av") {
 		const user = message.mentions.users.first() || message.author;
 		const downloadAvatar = new ButtonBuilder()
 			.setLabel('Download Avatar')
@@ -340,7 +336,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to !colors or !codes for Minecraft Color Codes
-	else if (command === "colors" || command === "codes") {
+	else if (message.content.toLowerCase() === '!colors' || message.content.toLowerCase() === '!codes') {
 		const colorEmbed = new EmbedBuilder()
 			.setColor('#9b59b6')
 			.setTitle('Minecraft Color Codes')
