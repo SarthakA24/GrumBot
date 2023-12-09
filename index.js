@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType, GatewayVersion, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, WebhookClient } = require('discord.js');
 const { channel } = require('node:diagnostics_channel');
+const { clear } = require('node:console');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
@@ -118,6 +119,16 @@ client.on(Events.MessageCreate, async message => {
 		}
 	}
 
+	// If the user is not Sar, THAT'S SUS
+	else if (message.author.id !== '373775406148616192' && message.content.toLowerCase().startsWith('?webhook')) {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
+		await message.reply(`Beep Boop ...... Beep Beep! Oh no! Grumbot has identified that you are not Sar. This command is only allowed to be used by Sar`)
+		clearInterval(sendTypingInterval);
+	}
+
 	// Text reply to "Hello Grumbot"
 	if (message.content.toLowerCase().includes('hello grumbot')) {
 		await message.channel.send('Hi, I am Grumbot, the bot for the EthelMC Discord Server. I was created by <@373775406148616192>. I am still in development, so please be patient with me.');
@@ -125,6 +136,10 @@ client.on(Events.MessageCreate, async message => {
 
 	// Text reply to "!vote" or "!voting"
 	else if (message.content.toLowerCase() === '!vote' || message.content.toLowerCase() === '!voting') {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
 		try {
 			const voteLink1 = new ButtonBuilder()
 				.setLabel('Vote Link 1')
@@ -172,10 +187,15 @@ client.on(Events.MessageCreate, async message => {
 			await message.reply("Error in sending vote links! Developers have been notified for this error");
 			await client.channels.cache.get('1135141244171984946').send(`Error in '!vote' command in ${message.channel.name} with the following errors - ${e}`);
 		}
+		clearInterval(sendTypingInterval);
 	}
 
 	// Text reply to "!online" or "!players" or "!playerlist" for getting list of online users
 	else if (message.content.toLowerCase() === 'online' || message.content.toLowerCase() === 'players' || message.content.toLowerCase() === 'playerlist') {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
 		try {
 			await getServerInfo();
 			if (serverInfomation.online) {
@@ -218,10 +238,15 @@ client.on(Events.MessageCreate, async message => {
 			await message.reply("Error in showing online users! Developers have been notified for this error");
 			await client.channels.cache.get('1135141244171984946').send(`Error in '${message.content.toLowerCase()}' command in ${message.channel.name} with the following errors - ${e}`);
 		}
+		clearInterval(sendTypingInterval);
 	}
 
 	// Text reply to !status for getting the server status
 	else if (message.content.toLowerCase() === 'status') {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
 		try {
 			var serverStatusEmbed = new EmbedBuilder();
 			await getServerInfo();
@@ -259,15 +284,25 @@ client.on(Events.MessageCreate, async message => {
 			await message.reply("Error in showing online users! Developers have been notified for this error");
 			await client.channels.cache.get('1135141244171984946').send(`Error in '${message.content.toLowerCase()}' command in ${message.channel.name} with the following errors - ${e}`);
 		}
+		clearInterval(sendTypingInterval);
 	}
 
 	// Text reply for !help
 	else if (message.content.toLowerCase() === 'help') {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
 		await message.reply(`Hi <@${message.author.id}>, Grumbot here! If you have any querie/questions/issues related to the Minecraft Server or the Discord Server, you can ask in <#1145330050456096810> or create a ticket at <#1142483755026616350> and one of our staff member will reply as soon as possible! *[Don't forget to vote MUMBO FOR MAYOR]*`);
+		clearInterval(sendTypingInterval);
 	}
 
 	// Text reply for !invite
 	else if (message.content.toLowerCase()=== 'invite') {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
 		let inviteLink;
 		await client.channels.cache.get('1135141244171984946').createInvite({
 			maxAge: 86400
@@ -280,10 +315,15 @@ client.on(Events.MessageCreate, async message => {
 				}, 2000);
 			}, 4000);
 		});
+		clearInterval(sendTypingInterval);
 	}
 
 	// Text reply to !ip
 	else if (message.content.toLowerCase() === "ip") {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
 		const serverIP = new EmbedBuilder()
 			.setColor('#9b59b6')
 			.setTitle('EthelMC Server IP')
@@ -297,10 +337,15 @@ client.on(Events.MessageCreate, async message => {
 			.setTimestamp()
 			.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
 		await message.reply({content:`Hi there <@${message.author.id}! Here is the IP for the EthelMC Server`, embeds: [serverIP]});
+		clearInterval(sendTypingInterval);
 	}
 
 	// Text reply to !store or !shop
 	else if (message.content.toLowerCase() === "store" || message.content.toLowerCase() === "shop") {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
 		const storeEmbed = new EmbedBuilder()
 			.setColor('#9b59b6')
 			.setTitle('EthelMC Store')
@@ -311,11 +356,16 @@ client.on(Events.MessageCreate, async message => {
 			)
 			.setTimestamp()
 			.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
-		await message.reply({content: `Hi there <@${message.author.id}>! Here is the link to the EthelMC Store`, embeds: [storeEmbed]})
+		await message.reply({content: `Hi there <@${message.author.id}>! Here is the link to the EthelMC Store`, embeds: [storeEmbed]});
+		clearInterval(sendTypingInterval);
 	}
 
 	// Text reply to !avatar to show the mentioned user avatar with a download button
 	else if (message.content.toLowerCase() === "!avatar" || message.content.toLowerCase() === "av") {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
 		const user = message.mentions.users.first() || message.author;
 		const downloadAvatar = new ButtonBuilder()
 			.setLabel('Download Avatar')
@@ -332,10 +382,15 @@ client.on(Events.MessageCreate, async message => {
 		await message.reply({ 
 			embeds: [avatarEmbed], 
 			components: [actionRow] });
+		clearInterval(sendTypingInterval);
 	}
 
 	// Text reply to !colors or !codes for Minecraft Color Codes
 	else if (message.content.toLowerCase() === '!colors' || message.content.toLowerCase() === '!codes') {
+		await message.channel.sendTyping();
+		const sendTypingInterval = setInterval(() => {
+			message.channel.sendTyping();
+		}, 5000);
 		const colorEmbed = new EmbedBuilder()
 			.setColor('#9b59b6')
 			.setTitle('Minecraft Color Codes')
@@ -345,6 +400,7 @@ client.on(Events.MessageCreate, async message => {
 			.setTimestamp()
 			.setFooter({ text: 'EthelMC', iconURL:"https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240" });
 		await message.reply({ embeds: [colorEmbed] });
+		clearInterval(sendTypingInterval);
 	}
 
 })
