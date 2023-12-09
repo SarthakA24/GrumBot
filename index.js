@@ -191,7 +191,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to "!online" or "!players" or "!playerlist" for getting list of online users
-	else if (message.content.toLowerCase() === 'online' || message.content.toLowerCase() === 'players' || message.content.toLowerCase() === 'playerlist') {
+	else if (message.content.toLowerCase() === '!online' || message.content.toLowerCase() === '!players' || message.content.toLowerCase() === '!playerlist') {
 		await message.channel.sendTyping();
 		const sendTypingInterval = setInterval(() => {
 			message.channel.sendTyping();
@@ -242,7 +242,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to !status for getting the server status
-	else if (message.content.toLowerCase() === 'status') {
+	else if (message.content.toLowerCase() === '!status') {
 		await message.channel.sendTyping();
 		const sendTypingInterval = setInterval(() => {
 			message.channel.sendTyping();
@@ -288,7 +288,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply for !help
-	else if (message.content.toLowerCase() === 'help') {
+	else if (message.content.toLowerCase() === '!help') {
 		await message.channel.sendTyping();
 		const sendTypingInterval = setInterval(() => {
 			message.channel.sendTyping();
@@ -298,7 +298,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply for !invite
-	else if (message.content.toLowerCase()=== 'invite') {
+	else if (message.content.toLowerCase()=== '!invite') {
 		await message.channel.sendTyping();
 		const sendTypingInterval = setInterval(() => {
 			message.channel.sendTyping();
@@ -319,7 +319,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to !ip
-	else if (message.content.toLowerCase() === "ip") {
+	else if (message.content.toLowerCase() === "!ip") {
 		await message.channel.sendTyping();
 		const sendTypingInterval = setInterval(() => {
 			message.channel.sendTyping();
@@ -341,7 +341,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to !store or !shop
-	else if (message.content.toLowerCase() === "store" || message.content.toLowerCase() === "shop") {
+	else if (message.content.toLowerCase() === "!store" || message.content.toLowerCase() === "!shop") {
 		await message.channel.sendTyping();
 		const sendTypingInterval = setInterval(() => {
 			message.channel.sendTyping();
@@ -361,7 +361,7 @@ client.on(Events.MessageCreate, async message => {
 	}
 
 	// Text reply to !avatar to show the mentioned user avatar with a download button
-	else if (message.content.toLowerCase() === "!avatar" || message.content.toLowerCase() === "av") {
+	else if (message.content.toLowerCase() === "!avatar" || message.content.toLowerCase() === "!av") {
 		await message.channel.sendTyping();
 		const sendTypingInterval = setInterval(() => {
 			message.channel.sendTyping();
