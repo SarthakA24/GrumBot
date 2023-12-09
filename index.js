@@ -13,7 +13,6 @@ dotNet.config();
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
-const prefix = "!";
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
@@ -258,7 +257,7 @@ client.on(Events.MessageCreate, async message => {
 		} catch (e) {
 			console.log(e);
 			await message.reply("Error in showing online users! Developers have been notified for this error");
-			await client.channels.cache.get('1135141244171984946').send(`Error in '${prefix}${command}' command in ${message.channel.name} with the following errors - ${e}`);
+			await client.channels.cache.get('1135141244171984946').send(`Error in '${message.content.toLowerCase()}' command in ${message.channel.name} with the following errors - ${e}`);
 		}
 	}
 
