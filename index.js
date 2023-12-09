@@ -336,7 +336,7 @@ client.on(Events.MessageCreate, async message => {
 			)
 			.setTimestamp()
 			.setFooter({ text: 'EthelMC', iconURL: 'https://cdn.discordapp.com/icons/1133675387830947850/51e577f9fbdca17213304e9a60bed0d3.webp?size=240' });
-		await message.reply({content:`Hi there <@${message.author.id}! Here is the IP for the EthelMC Server`, embeds: [serverIP]});
+		await message.reply({content:`Hi there <@${message.author.id}>! Here is the IP for the EthelMC Server`, embeds: [serverIP]});
 		clearInterval(sendTypingInterval);
 	}
 
